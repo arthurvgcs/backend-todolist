@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { QueryResult } from "typeorm";
 import db from '../config/database'
 
 
@@ -24,19 +23,6 @@ export const listarTarefas = async (req: Request, res: Response): Promise<void> 
     'SELECT * FROM tarefas ORDER BY tarefa ASC', []
   );
   res.status(200).send(response.rows);
-};
-
-
-export const atualizarTarefa = async (req: Request, res: Response): Promise<void> => {
-  const id: number = parseInt(req.params.id);
-  const { tarefa, concluido} = req.body;
-
-  await db.query('UPDATE tarefas SET tarefa = $1, concluido = $2, WHERE id = $3',[
-      tarefa, concluido, id
-    ],
-  );
-
-  res.status(200).send({ message: 'Tarefa atualizada com sucesso' });
 };
 
 export const deletarTarefa = async (req: Request, res: Response): Promise<void> => {
