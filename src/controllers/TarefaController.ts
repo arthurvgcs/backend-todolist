@@ -25,6 +25,18 @@ export const listarTarefas = async (req: Request, res: Response): Promise<void> 
   res.status(200).send(response.rows);
 };
 
+export const atualizarTarefa = async (req: Request, res: Response): Promise<void> => {
+  const id: number = parseInt(req.params.id);
+  const { tarefa, concluido} = req.body;
+
+  await db.query('UPDATE tarefas SET tarefa = $1, concluido = $2 WHERE id = $3',[
+      tarefa, concluido, id
+    ],
+  );
+
+  res.status(200).send({ message: 'Tarefa atualizada com sucesso' });
+};
+
 export const deletarTarefa = async (req: Request, res: Response): Promise<void> => {
   const id: number = parseInt(req.params.id);
   await db.query('DELETE FROM tarefas WHERE id = $1', [
